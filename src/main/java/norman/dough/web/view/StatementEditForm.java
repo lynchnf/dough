@@ -22,6 +22,7 @@ public class StatementEditForm {
     @NotNull(message = "Account may not be blank.")
     private Long accountId;
     private String account;
+    @NotNull(message = "Closing Date may not be blank.")
     @DateTimeFormat(pattern = "M/d/yyyy")
     private Date closeDate;
     @Digits(integer = 7, fraction = 2, message = "New Balance value out of bounds. (<{integer} digits>.<{fraction} digits> expected)")
