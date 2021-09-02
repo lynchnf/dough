@@ -16,3 +16,23 @@ To checkout Flunky and compile it, execute the following commands:
     cd dough
     git checkout main
     mvn clean package
+    
+## Install Database
+
+## TODO
+
+|  x  | Pts | Task
+| --- | --- | ---
+|     |  1  | Make close date in statement required.
+|     |  1  | Format code in flunky branch.
+|     |  1  | Put Flunky generation files for Dough in Dough project.
+|     |  3  | Create account should create account number, current statement, opening statement, and beginning balance transaction.
+|     |  3  | Update account allow addition of new account number.
+|     |  2  | Create transaction.
+|     |  2  | Create transfer.
+|     |  2  | Validate cron string in recurring schedule.
+|     |  5  | Reconcile account.
+|     |  2  | Remove deletes.
+|     |  3  | Real database.
+
+
