@@ -1,9 +1,7 @@
 package norman.dough.web.view;
 
 import norman.dough.domain.AccountNumber;
-import norman.dough.domain.Account;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class AccountNumberListRow {

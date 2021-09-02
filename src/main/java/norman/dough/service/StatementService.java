@@ -55,7 +55,6 @@ public class StatementService {
             throw new OptimisticLockingException(LOGGER, "Statement", entity.getId(), e);
         } catch (DataIntegrityViolationException e) {
             throw new ReferentialIntegrityException(LOGGER, "Statement", entity.getId(), e);
-
         }
     }
 }

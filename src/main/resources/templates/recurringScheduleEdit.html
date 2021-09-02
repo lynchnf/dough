@@ -50,16 +50,18 @@
             <tr>
                 <th>Tentative Account</th>
                 <td><select th:field="*{tentativeAccountId}" th:errorclass="field-error">
-                        <option value="">Please select ...</option>
-                        <option th:each="option:${allTentativeAccount}" th:value="${option.value}" th:text="${option.text}"></option>
-                    </select></td>
+                    <option value="">Please select ...</option>
+                    <option th:each="option:${allTentativeAccount}" th:value="${option.value}"
+                            th:text="${option.text}"></option>
+                </select></td>
             </tr>
             <tr>
                 <th>Tentative Category</th>
                 <td><select th:field="*{tentativeCategoryId}" th:errorclass="field-error">
-                        <option value="">Please select ...</option>
-                        <option th:each="option:${allTentativeCategory}" th:value="${option.value}" th:text="${option.text}"></option>
-                    </select></td>
+                    <option value="">Please select ...</option>
+                    <option th:each="option:${allTentativeCategory}" th:value="${option.value}"
+                            th:text="${option.text}"></option>
+                </select></td>
             </tr>
         </table>
         <input type="submit" value="Save">

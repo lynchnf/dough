@@ -1,10 +1,6 @@
 package norman.dough.web.view;
 
 import norman.dough.domain.Category;
-import norman.dough.domain.Category;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 public class CategoryListRow {
     private Long id;

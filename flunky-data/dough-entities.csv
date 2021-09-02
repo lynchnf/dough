@@ -1,0 +1,8 @@
+entityName,singular,plural,listLinkField,parentField,toString,dftSortField,dftSortDirection,dftPageSize,nbrOfFakeRecords
+Category,Category,Categories,name,,"parentCategory == null ? name : parentCategory.toString() + ""/"" + name",name,ASC,10,0
+Account,Account,Accounts,name,,name,name,ASC,10,0
+AccountNumber,Account Number,Account Numbers,number,account,"number.length() <= 4 ? number : StringUtils.repeat(""*"", number.length() - 4) + StringUtils.substring(number, number.length() - 4)",effectiveDate,DESC,10,0
+Statement,Statement,Statements,closeDate,account,"closeDate == null ? ""current"" : MiscUtils.YYMD.format(closeDate)",closeDate,DESC,10,0
+Transaction,Transaction,Transactions,name,statement,name,postDate,DESC,10,0
+RecurringSchedule,Recurring Schedule,Recurring Schedules,cronString ,,comment == null ? cronString : comment,cronString ,ASC,10,0
+Reminder,Reminder,Reminders,estimatedDate,,comment == null ? MiscUtils.YYMD.format(estimatedDate) : comment,estimatedDate,DESC,10,0
