@@ -55,7 +55,6 @@ public class ReminderService {
             throw new OptimisticLockingException(LOGGER, "Reminder", entity.getId(), e);
         } catch (DataIntegrityViolationException e) {
             throw new ReferentialIntegrityException(LOGGER, "Reminder", entity.getId(), e);
-
         }
     }
 }

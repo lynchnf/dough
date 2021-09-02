@@ -79,8 +79,8 @@ public class AccountController {
     }
 
     @GetMapping("/accountEdit")
-    public String loadAccountEdit(@RequestParam(value = "id", required = false) Long id,
-            Model model, RedirectAttributes redirectAttributes) {
+    public String loadAccountEdit(@RequestParam(value = "id", required = false) Long id, Model model,
+            RedirectAttributes redirectAttributes) {
 
         // If no id, add new record.
         if (id == null) {
@@ -153,7 +153,8 @@ public class AccountController {
             redirectAttributes.addFlashAttribute("errorMessage", "Account was updated by another user.");
             return "redirect:/";
         } catch (ReferentialIntegrityException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Account cannot be deleted because other data depends on it.");
+            redirectAttributes
+                    .addFlashAttribute("errorMessage", "Account cannot be deleted because other data depends on it.");
             return "redirect:/";
         }
     }

@@ -46,9 +46,10 @@
             <tr>
                 <th>Sub-category Of</th>
                 <td><select th:field="*{parentCategoryId}" th:errorclass="field-error">
-                        <option value="">Please select ...</option>
-                        <option th:each="option:${allParentCategory}" th:value="${option.value}" th:text="${option.text}"></option>
-                    </select></td>
+                    <option value="">Please select ...</option>
+                    <option th:each="option:${allParentCategory}" th:value="${option.value}"
+                            th:text="${option.text}"></option>
+                </select></td>
             </tr>
         </table>
         <input type="submit" value="Save">

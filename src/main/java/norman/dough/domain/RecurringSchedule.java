@@ -1,23 +1,15 @@
 package norman.dough.domain;
 
-import norman.dough.util.MiscUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Entity
 public class RecurringSchedule {

@@ -1,11 +1,9 @@
 package norman.dough.web;
 
 import norman.dough.domain.Category;
-import norman.dough.domain.Category;
 import norman.dough.exception.NotFoundException;
 import norman.dough.exception.OptimisticLockingException;
 import norman.dough.exception.ReferentialIntegrityException;
-import norman.dough.service.CategoryService;
 import norman.dough.service.CategoryService;
 import norman.dough.web.view.CategoryEditForm;
 import norman.dough.web.view.CategoryListForm;
@@ -79,8 +77,8 @@ public class CategoryController {
     }
 
     @GetMapping("/categoryEdit")
-    public String loadCategoryEdit(@RequestParam(value = "id", required = false) Long id,
-            Model model, RedirectAttributes redirectAttributes) {
+    public String loadCategoryEdit(@RequestParam(value = "id", required = false) Long id, Model model,
+            RedirectAttributes redirectAttributes) {
 
         // If no id, add new record.
         if (id == null) {
@@ -153,7 +151,8 @@ public class CategoryController {
             redirectAttributes.addFlashAttribute("errorMessage", "Category was updated by another user.");
             return "redirect:/";
         } catch (ReferentialIntegrityException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Category cannot be deleted because other data depends on it.");
+            redirectAttributes
+                    .addFlashAttribute("errorMessage", "Category cannot be deleted because other data depends on it.");
             return "redirect:/";
         }
     }

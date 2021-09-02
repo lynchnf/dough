@@ -55,7 +55,6 @@ public class RecurringScheduleService {
             throw new OptimisticLockingException(LOGGER, "Recurring Schedule", entity.getId(), e);
         } catch (DataIntegrityViolationException e) {
             throw new ReferentialIntegrityException(LOGGER, "Recurring Schedule", entity.getId(), e);
-
         }
     }
 }

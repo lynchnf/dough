@@ -55,7 +55,6 @@ public class CategoryService {
             throw new OptimisticLockingException(LOGGER, "Category", entity.getId(), e);
         } catch (DataIntegrityViolationException e) {
             throw new ReferentialIntegrityException(LOGGER, "Category", entity.getId(), e);
-
         }
     }
 }

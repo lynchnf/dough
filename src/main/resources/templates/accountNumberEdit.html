@@ -38,9 +38,9 @@
             <tr>
                 <th>Account</th>
                 <td><select th:field="*{accountId}" th:errorclass="field-error">
-                        <option value="">Please select ...</option>
-                        <option th:each="option:${allAccount}" th:value="${option.value}" th:text="${option.text}"></option>
-                    </select></td>
+                    <option value="">Please select ...</option>
+                    <option th:each="option:${allAccount}" th:value="${option.value}" th:text="${option.text}"></option>
+                </select></td>
             </tr>
             <tr>
                 <th>Number</th>
