@@ -55,7 +55,6 @@ public class TransactionService {
             throw new OptimisticLockingException(LOGGER, "Transaction", entity.getId(), e);
         } catch (DataIntegrityViolationException e) {
             throw new ReferentialIntegrityException(LOGGER, "Transaction", entity.getId(), e);
-
         }
     }
 }

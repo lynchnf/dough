@@ -1,22 +1,22 @@
 package norman.dough.web;
 
-import norman.dough.domain.Reminder;
-import norman.dough.domain.RecurringSchedule;
 import norman.dough.domain.Account;
 import norman.dough.domain.Category;
+import norman.dough.domain.RecurringSchedule;
+import norman.dough.domain.Reminder;
 import norman.dough.domain.Transaction;
 import norman.dough.exception.NotFoundException;
 import norman.dough.exception.OptimisticLockingException;
 import norman.dough.exception.ReferentialIntegrityException;
-import norman.dough.service.ReminderService;
-import norman.dough.service.RecurringScheduleService;
 import norman.dough.service.AccountService;
 import norman.dough.service.CategoryService;
+import norman.dough.service.RecurringScheduleService;
+import norman.dough.service.ReminderService;
 import norman.dough.service.TransactionService;
+import norman.dough.web.view.EntitySelectOption;
 import norman.dough.web.view.ReminderEditForm;
 import norman.dough.web.view.ReminderListForm;
 import norman.dough.web.view.ReminderView;
-import norman.dough.web.view.EntitySelectOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,8 @@ import java.util.List;
 public class ReminderController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReminderController.class);
     private static final String defaultSortColumn = "id";
-    private static final String[] sortableColumns = {"estimatedDate", "estimatedAmount", "comment", "tentativeAccount", "tentativeCategory", "skipped"};
+    private static final String[] sortableColumns =
+            {"estimatedDate", "estimatedAmount", "comment", "tentativeAccount", "tentativeCategory", "skipped"};
     @Autowired
     private ReminderService service;
     @Autowired
@@ -91,8 +92,8 @@ public class ReminderController {
     }
 
     @GetMapping("/reminderEdit")
-    public String loadReminderEdit(@RequestParam(value = "id", required = false) Long id,
-            Model model, RedirectAttributes redirectAttributes) {
+    public String loadReminderEdit(@RequestParam(value = "id", required = false) Long id, Model model,
+            RedirectAttributes redirectAttributes) {
 
         // If no id, add new record.
         if (id == null) {
@@ -168,7 +169,8 @@ public class ReminderController {
             redirectAttributes.addFlashAttribute("errorMessage", "Reminder was updated by another user.");
             return "redirect:/";
         } catch (ReferentialIntegrityException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Reminder cannot be deleted because other data depends on it.");
+            redirectAttributes
+                    .addFlashAttribute("errorMessage", "Reminder cannot be deleted because other data depends on it.");
             return "redirect:/";
         }
     }

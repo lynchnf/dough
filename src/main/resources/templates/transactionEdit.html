@@ -38,9 +38,10 @@
             <tr>
                 <th>Statement</th>
                 <td><select th:field="*{statementId}" th:errorclass="field-error">
-                        <option value="">Please select ...</option>
-                        <option th:each="option:${allStatement}" th:value="${option.value}" th:text="${option.text}"></option>
-                    </select></td>
+                    <option value="">Please select ...</option>
+                    <option th:each="option:${allStatement}" th:value="${option.value}"
+                            th:text="${option.text}"></option>
+                </select></td>
             </tr>
             <tr>
                 <th>Name</th>
@@ -65,24 +66,26 @@
             <tr>
                 <th>Category</th>
                 <td><select th:field="*{categoryId}" th:errorclass="field-error">
-                        <option value="">Please select ...</option>
-                        <option th:each="option:${allCategory}" th:value="${option.value}" th:text="${option.text}"></option>
-                    </select></td>
+                    <option value="">Please select ...</option>
+                    <option th:each="option:${allCategory}" th:value="${option.value}"
+                            th:text="${option.text}"></option>
+                </select></td>
             </tr>
             <tr>
                 <th>Transfer</th>
                 <td><select th:field="*{transferId}" th:errorclass="field-error">
-                        <option value="">Please select ...</option>
-                        <option th:each="option:${allTransfer}" th:value="${option.value}" th:text="${option.text}"></option>
-                    </select></td>
+                    <option value="">Please select ...</option>
+                    <option th:each="option:${allTransfer}" th:value="${option.value}"
+                            th:text="${option.text}"></option>
+                </select></td>
             </tr>
             <tr>
                 <th>Void</th>
                 <td><select th:field="*{voided}" th:errorclass="field-error">
-                        <option value="">Please select ...</option>
-                        <option value="true">true</option>
-                        <option value="false">false</option>
-                    </select></td>
+                    <option value="">Please select ...</option>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                </select></td>
             </tr>
         </table>
         <input type="submit" value="Save">

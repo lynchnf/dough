@@ -42,24 +42,26 @@
             <tr>
                 <th>Type</th>
                 <td><select th:field="*{type}" th:errorclass="field-error">
-                        <option value="">Please select ...</option>
-                        <option th:each="value:${T(norman.dough.domain.AccountType).values()}" th:value="${value}" th:text="${value}"></option>
-                    </select></td>
+                    <option value="">Please select ...</option>
+                    <option th:each="value:${T(norman.dough.domain.AccountType).values()}" th:value="${value}"
+                            th:text="${value}"></option>
+                </select></td>
             </tr>
             <tr>
                 <th>Default Category</th>
                 <td><select th:field="*{defaultCategoryId}" th:errorclass="field-error">
-                        <option value="">Please select ...</option>
-                        <option th:each="option:${allDefaultCategory}" th:value="${option.value}" th:text="${option.text}"></option>
-                    </select></td>
+                    <option value="">Please select ...</option>
+                    <option th:each="option:${allDefaultCategory}" th:value="${option.value}"
+                            th:text="${option.text}"></option>
+                </select></td>
             </tr>
             <tr>
                 <th>Active</th>
                 <td><select th:field="*{active}" th:errorclass="field-error">
-                        <option value="">Please select ...</option>
-                        <option value="true">true</option>
-                        <option value="false">false</option>
-                    </select></td>
+                    <option value="">Please select ...</option>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                </select></td>
             </tr>
         </table>
         <input type="submit" value="Save">

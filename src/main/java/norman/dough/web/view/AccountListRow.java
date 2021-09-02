@@ -2,10 +2,6 @@ package norman.dough.web.view;
 
 import norman.dough.domain.Account;
 import norman.dough.domain.AccountType;
-import norman.dough.domain.Category;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 public class AccountListRow {
     private Long id;

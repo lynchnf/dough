@@ -1,20 +1,18 @@
 package norman.dough.web;
 
-import norman.dough.domain.Transaction;
-import norman.dough.domain.Statement;
 import norman.dough.domain.Category;
+import norman.dough.domain.Statement;
 import norman.dough.domain.Transaction;
 import norman.dough.exception.NotFoundException;
 import norman.dough.exception.OptimisticLockingException;
 import norman.dough.exception.ReferentialIntegrityException;
-import norman.dough.service.TransactionService;
-import norman.dough.service.StatementService;
 import norman.dough.service.CategoryService;
+import norman.dough.service.StatementService;
 import norman.dough.service.TransactionService;
+import norman.dough.web.view.EntitySelectOption;
 import norman.dough.web.view.TransactionEditForm;
 import norman.dough.web.view.TransactionListForm;
 import norman.dough.web.view.TransactionView;
-import norman.dough.web.view.EntitySelectOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,8 +87,8 @@ public class TransactionController {
 
     @GetMapping("/transactionEdit")
     public String loadTransactionEdit(@RequestParam(value = "id", required = false) Long id,
-            @RequestParam(value = "parentId", required = false) Long parentId,
-            Model model, RedirectAttributes redirectAttributes) {
+            @RequestParam(value = "parentId", required = false) Long parentId, Model model,
+            RedirectAttributes redirectAttributes) {
 
         // If no id, add new record.
         if (id == null) {
@@ -174,7 +172,8 @@ public class TransactionController {
             redirectAttributes.addFlashAttribute("errorMessage", "Transaction was updated by another user.");
             return "redirect:/";
         } catch (ReferentialIntegrityException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Transaction cannot be deleted because other data depends on it.");
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "Transaction cannot be deleted because other data depends on it.");
             return "redirect:/";
         }
     }

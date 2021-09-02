@@ -1,7 +1,7 @@
 package norman.dough.web;
 
-import norman.dough.domain.AccountNumber;
 import norman.dough.domain.Account;
+import norman.dough.domain.AccountNumber;
 import norman.dough.exception.NotFoundException;
 import norman.dough.exception.OptimisticLockingException;
 import norman.dough.exception.ReferentialIntegrityException;
@@ -67,7 +67,8 @@ public class AccountNumberController {
     }
 
     @GetMapping("/accountNumber")
-    public String loadAccountNumberView(@RequestParam("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String loadAccountNumberView(@RequestParam("id") Long id, Model model,
+            RedirectAttributes redirectAttributes) {
         try {
             AccountNumber entity = service.findById(id);
             AccountNumberView view = new AccountNumberView(entity);
@@ -81,8 +82,8 @@ public class AccountNumberController {
 
     @GetMapping("/accountNumberEdit")
     public String loadAccountNumberEdit(@RequestParam(value = "id", required = false) Long id,
-            @RequestParam(value = "parentId", required = false) Long parentId,
-            Model model, RedirectAttributes redirectAttributes) {
+            @RequestParam(value = "parentId", required = false) Long parentId, Model model,
+            RedirectAttributes redirectAttributes) {
 
         // If no id, add new record.
         if (id == null) {
@@ -164,7 +165,8 @@ public class AccountNumberController {
             redirectAttributes.addFlashAttribute("errorMessage", "Account Number was updated by another user.");
             return "redirect:/";
         } catch (ReferentialIntegrityException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Account Number cannot be deleted because other data depends on it.");
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "Account Number cannot be deleted because other data depends on it.");
             return "redirect:/";
         }
     }

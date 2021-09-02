@@ -1,22 +1,14 @@
 package norman.dough.web.view;
 
 import norman.dough.domain.Category;
-import norman.dough.domain.Category;
 import norman.dough.exception.NotFoundException;
 import norman.dough.service.CategoryService;
-import norman.dough.util.MiscUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.NumberFormat;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
-import java.util.Date;
 
 public class CategoryEditForm {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoryEditForm.class);

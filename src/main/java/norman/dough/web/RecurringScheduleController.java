@@ -1,18 +1,18 @@
 package norman.dough.web;
 
-import norman.dough.domain.RecurringSchedule;
 import norman.dough.domain.Account;
 import norman.dough.domain.Category;
+import norman.dough.domain.RecurringSchedule;
 import norman.dough.exception.NotFoundException;
 import norman.dough.exception.OptimisticLockingException;
 import norman.dough.exception.ReferentialIntegrityException;
-import norman.dough.service.RecurringScheduleService;
 import norman.dough.service.AccountService;
 import norman.dough.service.CategoryService;
+import norman.dough.service.RecurringScheduleService;
+import norman.dough.web.view.EntitySelectOption;
 import norman.dough.web.view.RecurringScheduleEditForm;
 import norman.dough.web.view.RecurringScheduleListForm;
 import norman.dough.web.view.RecurringScheduleView;
-import norman.dough.web.view.EntitySelectOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,8 @@ import java.util.List;
 public class RecurringScheduleController {
     private static final Logger LOGGER = LoggerFactory.getLogger(RecurringScheduleController.class);
     private static final String defaultSortColumn = "id";
-    private static final String[] sortableColumns = {"cronString", "estimatedAmount", "comment", "tentativeAccount", "tentativeCategory"};
+    private static final String[] sortableColumns =
+            {"cronString", "estimatedAmount", "comment", "tentativeAccount", "tentativeCategory"};
     @Autowired
     private RecurringScheduleService service;
     @Autowired
@@ -70,7 +71,8 @@ public class RecurringScheduleController {
     }
 
     @GetMapping("/recurringSchedule")
-    public String loadRecurringScheduleView(@RequestParam("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String loadRecurringScheduleView(@RequestParam("id") Long id, Model model,
+            RedirectAttributes redirectAttributes) {
         try {
             RecurringSchedule entity = service.findById(id);
             RecurringScheduleView view = new RecurringScheduleView(entity);
@@ -83,8 +85,8 @@ public class RecurringScheduleController {
     }
 
     @GetMapping("/recurringScheduleEdit")
-    public String loadRecurringScheduleEdit(@RequestParam(value = "id", required = false) Long id,
-            Model model, RedirectAttributes redirectAttributes) {
+    public String loadRecurringScheduleEdit(@RequestParam(value = "id", required = false) Long id, Model model,
+            RedirectAttributes redirectAttributes) {
 
         // If no id, add new record.
         if (id == null) {
@@ -158,7 +160,8 @@ public class RecurringScheduleController {
             redirectAttributes.addFlashAttribute("errorMessage", "Recurring Schedule was updated by another user.");
             return "redirect:/";
         } catch (ReferentialIntegrityException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Recurring Schedule cannot be deleted because other data depends on it.");
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "Recurring Schedule cannot be deleted because other data depends on it.");
             return "redirect:/";
         }
     }

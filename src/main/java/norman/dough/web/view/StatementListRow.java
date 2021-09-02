@@ -1,7 +1,6 @@
 package norman.dough.web.view;
 
 import norman.dough.domain.Statement;
-import norman.dough.domain.Account;
 
 import java.math.BigDecimal;
 import java.util.Date;

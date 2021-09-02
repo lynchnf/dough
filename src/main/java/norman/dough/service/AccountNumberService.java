@@ -55,7 +55,6 @@ public class AccountNumberService {
             throw new OptimisticLockingException(LOGGER, "Account Number", entity.getId(), e);
         } catch (DataIntegrityViolationException e) {
             throw new ReferentialIntegrityException(LOGGER, "Account Number", entity.getId(), e);
-
         }
     }
 }

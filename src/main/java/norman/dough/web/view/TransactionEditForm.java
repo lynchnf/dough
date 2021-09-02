@@ -1,14 +1,12 @@
 package norman.dough.web.view;
 
-import norman.dough.domain.Transaction;
-import norman.dough.domain.Statement;
 import norman.dough.domain.Category;
+import norman.dough.domain.Statement;
 import norman.dough.domain.Transaction;
 import norman.dough.exception.NotFoundException;
-import norman.dough.service.StatementService;
 import norman.dough.service.CategoryService;
+import norman.dough.service.StatementService;
 import norman.dough.service.TransactionService;
-import norman.dough.util.MiscUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

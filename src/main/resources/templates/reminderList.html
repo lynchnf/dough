@@ -122,7 +122,8 @@
             </tr>
             <tr th:each="row:${listForm.rows}">
                 <td th:text="${row.recurringSchedule}"></td>
-                <td><a th:href="@{/reminder(id=${row.id})}" th:text="${#dates.format(row.estimatedDate,'M/d/yyyy')}"></a></td>
+                <td><a th:href="@{/reminder(id=${row.id})}"
+                       th:text="${#dates.format(row.estimatedDate,'M/d/yyyy')}"></a></td>
                 <td th:text="${#numbers.formatCurrency(row.estimatedAmount)}"></td>
                 <td th:text="${row.comment}"></td>
                 <td th:text="${row.tentativeAccount}"></td>

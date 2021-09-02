@@ -1,16 +1,15 @@
 package norman.dough.web.view;
 
-import norman.dough.domain.Reminder;
-import norman.dough.domain.RecurringSchedule;
 import norman.dough.domain.Account;
 import norman.dough.domain.Category;
+import norman.dough.domain.RecurringSchedule;
+import norman.dough.domain.Reminder;
 import norman.dough.domain.Transaction;
 import norman.dough.exception.NotFoundException;
-import norman.dough.service.RecurringScheduleService;
 import norman.dough.service.AccountService;
 import norman.dough.service.CategoryService;
+import norman.dough.service.RecurringScheduleService;
 import norman.dough.service.TransactionService;
-import norman.dough.util.MiscUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +17,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;

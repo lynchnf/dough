@@ -1,10 +1,6 @@
 package norman.dough.web.view;
 
 import norman.dough.domain.Reminder;
-import norman.dough.domain.RecurringSchedule;
-import norman.dough.domain.Account;
-import norman.dough.domain.Category;
-import norman.dough.domain.Transaction;
 
 import java.math.BigDecimal;
 import java.util.Date;
