@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="css/main.css">
+    <title>Dough</title>
+</head>
+<body>
+<header>
+    <table>
+        <tr>
+            <td><a th:href="@{/}">Home</a></td>
+            <td><a th:href="@{/accountList}">Account List</a></td>
+            <td><a th:href="@{/accountEdit(id=${view.id})}">Edit Account</a></td>
+            <td>
+                <small>Version</small>
+                <small th:text="#{application.version}"></small>
+            </td>
+        </tr>
+    </table>
+</header>
+<main>
+    <h1>Account</h1>
+    <div>
+        <ul class="success-message" th:if="${successMessage}">
+            <li th:text="${successMessage}"></li>
+        </ul>
+        <ul class="error-message" th:if="${errorMessage}">
+            <li th:text="${errorMessage}"></li>
+        </ul>
+    </div>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <td th:text="${view.name}"></td>
+        </tr>
+        <tr>
+            <th>Type</th>
+            <td th:text="${view.type}"></td>
+        </tr>
+        <tr>
+            <th>Default Category</th>
+            <td th:text="${view.defaultCategory}"></td>
+        </tr>
+        <tr>
+            <th>Active</th>
+            <td th:text="${view.active}"></td>
+        </tr>
+    </table>
+    <form action="#" method="post" th:action="@{/accountDelete}">
+        <input type="hidden" th:field="${view.id}"/>
+        <input type="hidden" th:field="${view.version}"/>
+        <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
+    </form>
+    <ul>
+        <li><a th:href="@{/accountNumberList(parentId=${view.id})}">Account Numbers</a></li>
+        <li><a th:href="@{/statementList(parentId=${view.id})}">Statements</a></li>
+    </ul>
+</main>
+<footer>
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/common.js"></script>
+</footer>
+</body>
+</html>

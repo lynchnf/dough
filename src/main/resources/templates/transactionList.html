@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="css/main.css">
+    <title>Dough</title>
+</head>
+<body>
+<header>
+    <table>
+        <tr>
+            <td><a th:href="@{/}">Home</a></td>
+            <td><a th:href="@{/transactionEdit(parentId=${listForm.parentId})}">Create Transaction</a></td>
+            <td>
+                <small>Version</small>
+                <small th:text="#{application.version}"></small>
+            </td>
+        </tr>
+    </table>
+</header>
+<main>
+    <h1>Transactions</h1>
+    <div>
+        <ul class="success-message" th:if="${successMessage}">
+            <li th:text="${successMessage}"></li>
+        </ul>
+        <ul class="error-message" th:if="${errorMessage}">
+            <li th:text="${errorMessage}"></li>
+        </ul>
+    </div>
+
+    <form id="listForm" action="#" method="get" th:action="@{/transactionList}">
+        <input type="hidden" class="pageNumber" name="pageNumber" th:value="${listForm.number}"/>
+        <input type="hidden" class="pageSize" name="pageSize" th:value="${listForm.size}"/>
+        <input type="hidden" class="sortColumn" name="sortColumn" th:value="${listForm.sortColumn}"/>
+        <input type="hidden" class="sortDirection" name="sortDirection" th:value="${listForm.sortDirection}"/>
+        <input type="hidden" class="currentPage" th:value="${listForm.number}"/>
+        <input type="hidden" class="totalPages" th:value="${listForm.totalPages}"/>
+        <input type="hidden" name="parentId" th:value="${listForm.parentId}"/>
+
+        <span th:if="${listForm.hasPrevious()}">
+            <a class="goToFirstPage" data-list-form="listForm" href="#">&lt;&lt;</a>
+            &nbsp;
+            <a class="goToPreviousPage" data-list-form="listForm" href="#">&lt;</a>
+            &nbsp;
+        </span>
+
+        page <span th:text="${listForm.number}+1"></span> of <span th:text="${listForm.totalPages}"></span>
+
+        <span th:if="${listForm.hasNext()}">
+            &nbsp;
+            <a class="goToNextPage" data-list-form="listForm" href="#">&gt;</a>
+            &nbsp;
+            <a class="goToLastPage" data-list-form="listForm" href="#">&gt;&gt;</a>
+        </span>
+
+        &nbsp;&nbsp;&nbsp;
+        page size
+        <select class="changePageSize" data-list-form="listForm">
+            <option value="5" th:selected="${listForm.size}==5">5</option>
+            <option value="10" th:selected="${listForm.size}==10">10</option>
+            <option value="20" th:selected="${listForm.size}==20">20</option>
+            <option value="50" th:selected="${listForm.size}==50">50</option>
+        </select>
+
+        <table>
+            <tr>
+                <th>Statement</th>
+                <th>
+                    <a class="changeSort" data-list-form="listForm" data-sort-column="name" href="#">
+                        Name
+                        <span th:if="${listForm.sortColumn=='name'}">
+                            <span th:if="${listForm.ascending}">&and;</span>
+                            <span th:if="${listForm.descending}">&or;</span>
+                        </span>
+                    </a>
+                </th>
+                <th>Memo</th>
+                <th>
+                    <a class="changeSort" data-list-form="listForm" data-sort-column="postDate" href="#">
+                        Post Date
+                        <span th:if="${listForm.sortColumn=='postDate'}">
+                            <span th:if="${listForm.ascending}">&and;</span>
+                            <span th:if="${listForm.descending}">&or;</span>
+                        </span>
+                    </a>
+                </th>
+                <th>
+                    <a class="changeSort" data-list-form="listForm" data-sort-column="amount" href="#">
+                        Amount
+                        <span th:if="${listForm.sortColumn=='amount'}">
+                            <span th:if="${listForm.ascending}">&and;</span>
+                            <span th:if="${listForm.descending}">&or;</span>
+                        </span>
+                    </a>
+                </th>
+                <th>
+                    <a class="changeSort" data-list-form="listForm" data-sort-column="checkNumber" href="#">
+                        Check Number
+                        <span th:if="${listForm.sortColumn=='checkNumber'}">
+                            <span th:if="${listForm.ascending}">&and;</span>
+                            <span th:if="${listForm.descending}">&or;</span>
+                        </span>
+                    </a>
+                </th>
+                <th>
+                    <a class="changeSort" data-list-form="listForm" data-sort-column="category" href="#">
+                        Category
+                        <span th:if="${listForm.sortColumn=='category'}">
+                            <span th:if="${listForm.ascending}">&and;</span>
+                            <span th:if="${listForm.descending}">&or;</span>
+                        </span>
+                    </a>
+                </th>
+                <th>Transfer</th>
+                <th>
+                    <a class="changeSort" data-list-form="listForm" data-sort-column="voided" href="#">
+                        Void
+                        <span th:if="${listForm.sortColumn=='voided'}">
+                            <span th:if="${listForm.ascending}">&and;</span>
+                            <span th:if="${listForm.descending}">&or;</span>
+                        </span>
+                    </a>
+                </th>
+            </tr>
+            <tr th:each="row:${listForm.rows}">
+                <td th:text="${row.statement}"></td>
+                <td><a th:href="@{/transaction(id=${row.id})}" th:text="${row.name}"></a></td>
+                <td th:text="${row.memo}"></td>
+                <td th:text="${#dates.format(row.postDate,'M/d/yyyy')}"></td>
+                <td th:text="${#numbers.formatCurrency(row.amount)}"></td>
+                <td th:text="${row.checkNumber}"></td>
+                <td th:text="${row.category}"></td>
+                <td th:text="${row.transfer}"></td>
+                <td th:text="${row.voided}"></td>
+            </tr>
+        </table>
+    </form>
+</main>
+<footer>
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/common.js"></script>
+</footer>
+</body>
+</html>
