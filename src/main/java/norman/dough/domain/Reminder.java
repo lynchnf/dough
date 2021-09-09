@@ -27,6 +27,7 @@ public class Reminder {
     @JoinColumn(name = "recurring_schedule_id")
     private RecurringSchedule recurringSchedule;
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private Date estimatedDate;
     @Column(precision = 9, scale = 2, nullable = false)
     private BigDecimal estimatedAmount;

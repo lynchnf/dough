@@ -23,12 +23,14 @@ public class Transaction {
     private Integer version = 0;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "statement_id", nullable = false)
+    @Column(nullable = false)
     private Statement statement;
     @Column(length = 100, nullable = false)
     private String name;
     @Column(length = 100)
     private String memo;
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private Date postDate;
     @Column(precision = 9, scale = 2, nullable = false)
     private BigDecimal amount;
