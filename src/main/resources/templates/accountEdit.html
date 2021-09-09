@@ -65,13 +65,16 @@
                 <th>Effective Date</th>
                 <td><input type="text" th:field="*{effectiveDate}" th:errorclass="field-error"/></td>
             </tr>
+            <tr th:if="${editForm.id==null}">
+                <th>Amount</th>
+                <td><input type="text" th:field="*{amount}" th:errorclass="field-error"/></td>
+            </tr>
             <tr>
                 <th>Active</th>
                 <td><select th:field="*{active}" th:errorclass="field-error">
                     <option value="">Please select ...</option>
                     <option value="true">true</option>
                     <option value="false">false</option>
-                </select></td>
             </tr>
         </table>
         <input type="submit" value="Save">

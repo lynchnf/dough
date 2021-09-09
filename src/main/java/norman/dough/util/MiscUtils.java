@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 public class MiscUtils {
@@ -13,6 +15,7 @@ public class MiscUtils {
     public static final DateFormat YYMD = new SimpleDateFormat("yyyy-MM-dd");
     public static final DateFormat HMS = new SimpleDateFormat("HH:mm:ss");
     public static final DateFormat YYMD_HMS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static Date endOfTime;
 
     public static Date parseDate(String source) {
         try {
@@ -44,5 +47,13 @@ public class MiscUtils {
     public static String camelToSnake(String camelStr) {
         String ret = camelStr.replaceAll("([A-Z]+)([A-Z][a-z])", "$1_$2").replaceAll("([a-z])([A-Z])", "$1_$2");
         return ret.toLowerCase();
+    }
+
+    public static Date getEndOfTime() {
+        if (endOfTime == null) {
+            LocalDate dt = LocalDate.of(9999, 12, 31);
+            endOfTime = Date.from(dt.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        }
+        return endOfTime;
     }
 }

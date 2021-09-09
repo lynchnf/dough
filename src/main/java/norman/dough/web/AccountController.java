@@ -9,7 +9,6 @@ import norman.dough.exception.OptimisticLockingException;
 import norman.dough.service.AccountNumberService;
 import norman.dough.service.AccountService;
 import norman.dough.service.CategoryService;
-import norman.dough.service.response.SaveAccountResponse;
 import norman.dough.web.view.AccountEditForm;
 import norman.dough.web.view.AccountListForm;
 import norman.dough.web.view.AccountView;
@@ -30,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -127,6 +127,7 @@ public class AccountController {
             editForm.setDefaultCategoryService(defaultCategoryService);
             Account entity = editForm.toEntity();
             AccountNumber accountNumber = null;
+            BigDecimal amount = null;
 
             // If new account or account number changed or effective date changed, we need to save account number.
             if (id == null || !editForm.getNumber().equals(editForm.getOldNumber()) ||
@@ -134,14 +135,19 @@ public class AccountController {
                 accountNumber = editForm.toAccountNumber();
             }
 
+            // If new account, we need to save the amount.
+            if (id == null) {
+                amount = editForm.getAmount();
+            }
+
             // Save entity.
-            SaveAccountResponse response = service.saveAccount(entity, accountNumber);
+            Account save = service.saveAccount(entity, accountNumber, amount);
             String successMessage = "Account successfully added.";
             if (id != null) {
                 successMessage = "Account successfully updated.";
             }
             redirectAttributes.addFlashAttribute("successMessage", successMessage);
-            redirectAttributes.addAttribute("id", response.getSavedAccount().getId());
+            redirectAttributes.addAttribute("id", save.getId());
             return "redirect:/account?id={id}";
         } catch (NotFoundException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Account was not found.");

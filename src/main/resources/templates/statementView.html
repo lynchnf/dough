@@ -71,11 +71,6 @@
             <td th:text="${#numbers.formatCurrency(view.interest)}"></td>
         </tr>
     </table>
-    <form action="#" method="post" th:action="@{/statementDelete}">
-        <input type="hidden" th:field="${view.id}"/>
-        <input type="hidden" th:field="${view.version}"/>
-        <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
-    </form>
     <ul>
         <li><a th:href="@{/transactionList(parentId=${view.id})}">Transactions</a></li>
     </ul>

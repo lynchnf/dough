@@ -7,17 +7,22 @@ import norman.dough.domain.Category;
 import norman.dough.exception.NotFoundException;
 import norman.dough.service.CategoryService;
 import norman.dough.web.view.validation.AfterDateIfValueChange;
+import norman.dough.web.view.validation.NotNullIfCondition;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.Date;
 
-@AfterDateIfValueChange(newDate = "effectiveDate", oldDate = "oldEffectiveDate", newString = "number", oldString = "oldNumber")
+@AfterDateIfValueChange(newDate = "effectiveDate", oldDate = "oldEffectiveDate", newString = "number", oldString = "oldNumber", message = "If Number changed, new Effective Date must be after old Effective Date.")
+@NotNullIfCondition(fieldName = "amount", conditionField = "newEntity", message = "If new Account, Amount may not be blank.")
 public class AccountEditForm {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountEditForm.class);
     private CategoryService defaultCategoryService;
@@ -39,12 +44,12 @@ public class AccountEditForm {
     private Date effectiveDate;
     @DateTimeFormat(pattern = "M/d/yyyy")
     private Date oldEffectiveDate;
-    //    @NotNull(message = "Opening Amount may not be blank.")
-    //    @Digits(integer = 7, fraction = 2, message = "Opening Amount value out of bounds. (<{integer} digits>.<{fraction} digits> expected)")
-    //    @NumberFormat(style = NumberFormat.Style.CURRENCY)
-    //    private BigDecimal amount;
+    @Digits(integer = 7, fraction = 2, message = "Amount value out of bounds. (<{integer} digits>.<{fraction} digits> expected)")
+    @NumberFormat(style = NumberFormat.Style.CURRENCY)
+    private BigDecimal amount;
     @NotNull(message = "Active may not be blank.")
     private Boolean active;
+    private boolean newEntity = true;
 
     public AccountEditForm() {
         active = true;
@@ -64,6 +69,7 @@ public class AccountEditForm {
         effectiveDate = accountNumber.getEffectiveDate();
         oldEffectiveDate = accountNumber.getEffectiveDate();
         active = entity.getActive();
+        newEntity = false;
     }
 
     public Account toEntity() throws NotFoundException {
@@ -171,11 +177,23 @@ public class AccountEditForm {
         this.oldEffectiveDate = oldEffectiveDate;
     }
 
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
     public Boolean getActive() {
         return active;
     }
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public boolean isNewEntity() {
+        return newEntity;
     }
 }

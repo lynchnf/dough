@@ -4,7 +4,6 @@ import norman.dough.domain.Account;
 import norman.dough.domain.Statement;
 import norman.dough.exception.NotFoundException;
 import norman.dough.exception.OptimisticLockingException;
-import norman.dough.exception.ReferentialIntegrityException;
 import norman.dough.service.AccountService;
 import norman.dough.service.StatementService;
 import norman.dough.web.view.EntitySelectOption;
@@ -137,35 +136,6 @@ public class StatementController {
             return "redirect:/";
         } catch (OptimisticLockingException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Statement was updated by another user.");
-            return "redirect:/";
-        }
-    }
-
-    @PostMapping("/statementDelete")
-    public String processStatementDelete(@RequestParam("id") Long id, @RequestParam("version") Integer version,
-            RedirectAttributes redirectAttributes) {
-        try {
-            Statement entity = service.findById(id);
-            if (entity.getVersion() == version) {
-                Long parentId = entity.getAccount().getId();
-                service.delete(entity);
-                String successMessage = "Statement successfully deleted.";
-                redirectAttributes.addFlashAttribute("successMessage", successMessage);
-                redirectAttributes.addAttribute("parentId", parentId);
-                return "redirect:/statementList?parentId={parentId}";
-            } else {
-                redirectAttributes.addFlashAttribute("errorMessage", "Statement was updated by another user.");
-                return "redirect:/";
-            }
-        } catch (NotFoundException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Statement was not found.");
-            return "redirect:/";
-        } catch (OptimisticLockingException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Statement was updated by another user.");
-            return "redirect:/";
-        } catch (ReferentialIntegrityException e) {
-            redirectAttributes
-                    .addFlashAttribute("errorMessage", "Statement cannot be deleted because other data depends on it.");
             return "redirect:/";
         }
     }

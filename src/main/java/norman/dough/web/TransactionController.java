@@ -5,7 +5,6 @@ import norman.dough.domain.Statement;
 import norman.dough.domain.Transaction;
 import norman.dough.exception.NotFoundException;
 import norman.dough.exception.OptimisticLockingException;
-import norman.dough.exception.ReferentialIntegrityException;
 import norman.dough.service.CategoryService;
 import norman.dough.service.StatementService;
 import norman.dough.service.TransactionService;
@@ -145,35 +144,6 @@ public class TransactionController {
             return "redirect:/";
         } catch (OptimisticLockingException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Transaction was updated by another user.");
-            return "redirect:/";
-        }
-    }
-
-    @PostMapping("/transactionDelete")
-    public String processTransactionDelete(@RequestParam("id") Long id, @RequestParam("version") Integer version,
-            RedirectAttributes redirectAttributes) {
-        try {
-            Transaction entity = service.findById(id);
-            if (entity.getVersion() == version) {
-                Long parentId = entity.getStatement().getId();
-                service.delete(entity);
-                String successMessage = "Transaction successfully deleted.";
-                redirectAttributes.addFlashAttribute("successMessage", successMessage);
-                redirectAttributes.addAttribute("parentId", parentId);
-                return "redirect:/transactionList?parentId={parentId}";
-            } else {
-                redirectAttributes.addFlashAttribute("errorMessage", "Transaction was updated by another user.");
-                return "redirect:/";
-            }
-        } catch (NotFoundException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Transaction was not found.");
-            return "redirect:/";
-        } catch (OptimisticLockingException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Transaction was updated by another user.");
-            return "redirect:/";
-        } catch (ReferentialIntegrityException e) {
-            redirectAttributes.addFlashAttribute("errorMessage",
-                    "Transaction cannot be deleted because other data depends on it.");
             return "redirect:/";
         }
     }

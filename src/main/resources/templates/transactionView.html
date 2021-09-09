@@ -67,11 +67,6 @@
             <td th:text="${view.voided}"></td>
         </tr>
     </table>
-    <form action="#" method="post" th:action="@{/transactionDelete}">
-        <input type="hidden" th:field="${view.id}"/>
-        <input type="hidden" th:field="${view.version}"/>
-        <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
-    </form>
     <ul>
     </ul>
 </main>
