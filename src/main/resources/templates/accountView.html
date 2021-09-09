@@ -43,15 +43,18 @@
             <td th:text="${view.defaultCategory}"></td>
         </tr>
         <tr>
+            <th>Number</th>
+            <td th:text="${view.number}"></td>
+        </tr>
+        <tr>
+            <th>Effective Date</th>
+            <td th:text="${#dates.format(view.effectiveDate,'M/d/yyyy')}"></td>
+        </tr>
+        <tr>
             <th>Active</th>
             <td th:text="${view.active}"></td>
         </tr>
     </table>
-    <form action="#" method="post" th:action="@{/accountDelete}">
-        <input type="hidden" th:field="${view.id}"/>
-        <input type="hidden" th:field="${view.version}"/>
-        <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
-    </form>
     <ul>
         <li><a th:href="@{/accountNumberList(parentId=${view.id})}">Account Numbers</a></li>
         <li><a th:href="@{/statementList(parentId=${view.id})}">Statements</a></li>

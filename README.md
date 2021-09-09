@@ -23,10 +23,11 @@ To checkout Flunky and compile it, execute the following commands:
 
 |  x  | Pts | Task
 | --- | --- | ---
-|     |  1  | Make close date in statement required.
-|     |  1  | Format code in flunky branch.
-|     |  1  | Put Flunky generation files for Dough in Dough project.
-|     |  3  | Create account should create account number, current statement, opening statement, and beginning balance transaction.
+|  x  |  1  | Make close date in statement required.
+|  x  |  1  | Format code in flunky branch.
+|  x  |  1  | Put Flunky generation files for Dough in Dough project.
+|     |  3  | Create account should create account number.
+|     |  3  | Create account should create current statement, opening statement, and beginning balance transaction.
 |     |  3  | Update account allow addition of new account number.
 |     |  2  | Create transaction.
 |     |  2  | Create transfer.

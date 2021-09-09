@@ -34,6 +34,8 @@
         </ul>
         <input type="hidden" th:field="*{id}"/>
         <input type="hidden" th:field="*{version}"/>
+        <input type="hidden" th:field="*{oldNumber}"/>
+        <input type="hidden" th:field="*{oldEffectiveDate}"/>
         <table>
             <tr>
                 <th>Name</th>
@@ -54,6 +56,14 @@
                     <option th:each="option:${allDefaultCategory}" th:value="${option.value}"
                             th:text="${option.text}"></option>
                 </select></td>
+            </tr>
+            <tr>
+                <th>Number</th>
+                <td><input type="text" th:field="*{number}" th:errorclass="field-error"/></td>
+            </tr>
+            <tr>
+                <th>Effective Date</th>
+                <td><input type="text" th:field="*{effectiveDate}" th:errorclass="field-error"/></td>
             </tr>
             <tr>
                 <th>Active</th>

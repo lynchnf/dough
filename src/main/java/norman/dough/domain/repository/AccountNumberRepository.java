@@ -6,8 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.List;
+
 public interface AccountNumberRepository extends PagingAndSortingRepository<AccountNumber, Long> {
     Iterable<AccountNumber> findByAccount_Id(Long parentId, Sort sort);
 
     Page<AccountNumber> findByAccount_Id(Long parentId, Pageable pageable);
+
+    List<AccountNumber> findTopByAccount_IdOrderByEffectiveDateDesc(Long accountId);
 }

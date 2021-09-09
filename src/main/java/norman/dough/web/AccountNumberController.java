@@ -3,11 +3,8 @@ package norman.dough.web;
 import norman.dough.domain.Account;
 import norman.dough.domain.AccountNumber;
 import norman.dough.exception.NotFoundException;
-import norman.dough.exception.OptimisticLockingException;
-import norman.dough.exception.ReferentialIntegrityException;
 import norman.dough.service.AccountNumberService;
 import norman.dough.service.AccountService;
-import norman.dough.web.view.AccountNumberEditForm;
 import norman.dough.web.view.AccountNumberListForm;
 import norman.dough.web.view.AccountNumberView;
 import norman.dough.web.view.EntitySelectOption;
@@ -19,14 +16,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,97 +70,6 @@ public class AccountNumberController {
             return "accountNumberView";
         } catch (NotFoundException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Account Number was not found.");
-            return "redirect:/";
-        }
-    }
-
-    @GetMapping("/accountNumberEdit")
-    public String loadAccountNumberEdit(@RequestParam(value = "id", required = false) Long id,
-            @RequestParam(value = "parentId", required = false) Long parentId, Model model,
-            RedirectAttributes redirectAttributes) {
-
-        // If no id, add new record.
-        if (id == null) {
-            try {
-                Account parent = accountService.findById(parentId);
-                AccountNumberEditForm editForm = new AccountNumberEditForm(parent);
-                model.addAttribute("editForm", editForm);
-                return "accountNumberEdit";
-            } catch (NotFoundException e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Account was not found.");
-                return "redirect:/";
-            }
-        } else {
-
-            // Otherwise, edit existing record.
-            try {
-                AccountNumber entity = service.findById(id);
-                AccountNumberEditForm editForm = new AccountNumberEditForm(entity);
-                model.addAttribute("editForm", editForm);
-                return "accountNumberEdit";
-            } catch (NotFoundException e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Account Number was not found.");
-                return "redirect:/";
-            }
-        }
-    }
-
-    @PostMapping("/accountNumberEdit")
-    public String processAccountNumberEdit(@Valid @ModelAttribute("editForm") AccountNumberEditForm editForm,
-            BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "accountNumberEdit";
-        }
-
-        // Convert form to entity.
-        Long id = editForm.getId();
-        try {
-            editForm.setAccountService(accountService);
-            AccountNumber entity = editForm.toEntity();
-
-            // Save entity.
-            AccountNumber save = service.save(entity);
-            String successMessage = "Account Number successfully added.";
-            if (id != null) {
-                successMessage = "Account Number successfully updated.";
-            }
-            redirectAttributes.addFlashAttribute("successMessage", successMessage);
-            redirectAttributes.addAttribute("id", save.getId());
-            return "redirect:/accountNumber?id={id}";
-        } catch (NotFoundException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Account Number was not found.");
-            return "redirect:/";
-        } catch (OptimisticLockingException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Account Number was updated by another user.");
-            return "redirect:/";
-        }
-    }
-
-    @PostMapping("/accountNumberDelete")
-    public String processAccountNumberDelete(@RequestParam("id") Long id, @RequestParam("version") Integer version,
-            RedirectAttributes redirectAttributes) {
-        try {
-            AccountNumber entity = service.findById(id);
-            if (entity.getVersion() == version) {
-                Long parentId = entity.getAccount().getId();
-                service.delete(entity);
-                String successMessage = "Account Number successfully deleted.";
-                redirectAttributes.addFlashAttribute("successMessage", successMessage);
-                redirectAttributes.addAttribute("parentId", parentId);
-                return "redirect:/accountNumberList?parentId={parentId}";
-            } else {
-                redirectAttributes.addFlashAttribute("errorMessage", "Account Number was updated by another user.");
-                return "redirect:/";
-            }
-        } catch (NotFoundException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Account Number was not found.");
-            return "redirect:/";
-        } catch (OptimisticLockingException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Account Number was updated by another user.");
-            return "redirect:/";
-        } catch (ReferentialIntegrityException e) {
-            redirectAttributes.addFlashAttribute("errorMessage",
-                    "Account Number cannot be deleted because other data depends on it.");
             return "redirect:/";
         }
     }

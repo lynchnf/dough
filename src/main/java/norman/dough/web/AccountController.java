@@ -1,12 +1,15 @@
 package norman.dough.web;
 
 import norman.dough.domain.Account;
+import norman.dough.domain.AccountNumber;
 import norman.dough.domain.Category;
+import norman.dough.exception.InconceivableException;
 import norman.dough.exception.NotFoundException;
 import norman.dough.exception.OptimisticLockingException;
-import norman.dough.exception.ReferentialIntegrityException;
+import norman.dough.service.AccountNumberService;
 import norman.dough.service.AccountService;
 import norman.dough.service.CategoryService;
+import norman.dough.service.response.SaveAccountResponse;
 import norman.dough.web.view.AccountEditForm;
 import norman.dough.web.view.AccountListForm;
 import norman.dough.web.view.AccountView;
@@ -40,6 +43,8 @@ public class AccountController {
     private AccountService service;
     @Autowired
     private CategoryService defaultCategoryService;
+    @Autowired
+    private AccountNumberService accountNumberService;
 
     @GetMapping("/accountList")
     public String loadAccountList(
@@ -69,11 +74,15 @@ public class AccountController {
     public String loadAccountView(@RequestParam("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
             Account entity = service.findById(id);
-            AccountView view = new AccountView(entity);
+            AccountNumber currentAccountNumber = accountNumberService.findCurrentByAccountId(entity.getId());
+            AccountView view = new AccountView(entity, currentAccountNumber);
             model.addAttribute("view", view);
             return "accountView";
         } catch (NotFoundException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Account was not found.");
+            return "redirect:/";
+        } catch (InconceivableException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected Error! See log for details.");
             return "redirect:/";
         }
     }
@@ -91,11 +100,15 @@ public class AccountController {
             // Otherwise, edit existing record.
             try {
                 Account entity = service.findById(id);
-                AccountEditForm editForm = new AccountEditForm(entity);
+                AccountNumber currentAccountNumber = accountNumberService.findCurrentByAccountId(entity.getId());
+                AccountEditForm editForm = new AccountEditForm(entity, currentAccountNumber);
                 model.addAttribute("editForm", editForm);
                 return "accountEdit";
             } catch (NotFoundException e) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Account was not found.");
+                return "redirect:/";
+            } catch (InconceivableException e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Unexpected Error! See log for details.");
                 return "redirect:/";
             }
         }
@@ -113,48 +126,28 @@ public class AccountController {
         try {
             editForm.setDefaultCategoryService(defaultCategoryService);
             Account entity = editForm.toEntity();
+            AccountNumber accountNumber = null;
+
+            // If new account or account number changed or effective date changed, we need to save account number.
+            if (id == null || !editForm.getNumber().equals(editForm.getOldNumber()) ||
+                    !editForm.getEffectiveDate().equals(editForm.getOldEffectiveDate())) {
+                accountNumber = editForm.toAccountNumber();
+            }
 
             // Save entity.
-            Account save = service.save(entity);
+            SaveAccountResponse response = service.saveAccount(entity, accountNumber);
             String successMessage = "Account successfully added.";
             if (id != null) {
                 successMessage = "Account successfully updated.";
             }
             redirectAttributes.addFlashAttribute("successMessage", successMessage);
-            redirectAttributes.addAttribute("id", save.getId());
+            redirectAttributes.addAttribute("id", response.getSavedAccount().getId());
             return "redirect:/account?id={id}";
         } catch (NotFoundException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Account was not found.");
             return "redirect:/";
         } catch (OptimisticLockingException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Account was updated by another user.");
-            return "redirect:/";
-        }
-    }
-
-    @PostMapping("/accountDelete")
-    public String processAccountDelete(@RequestParam("id") Long id, @RequestParam("version") Integer version,
-            RedirectAttributes redirectAttributes) {
-        try {
-            Account entity = service.findById(id);
-            if (entity.getVersion() == version) {
-                service.delete(entity);
-                String successMessage = "Account successfully deleted.";
-                redirectAttributes.addFlashAttribute("successMessage", successMessage);
-                return "redirect:/accountList";
-            } else {
-                redirectAttributes.addFlashAttribute("errorMessage", "Account was updated by another user.");
-                return "redirect:/";
-            }
-        } catch (NotFoundException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Account was not found.");
-            return "redirect:/";
-        } catch (OptimisticLockingException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Account was updated by another user.");
-            return "redirect:/";
-        } catch (ReferentialIntegrityException e) {
-            redirectAttributes
-                    .addFlashAttribute("errorMessage", "Account cannot be deleted because other data depends on it.");
             return "redirect:/";
         }
     }

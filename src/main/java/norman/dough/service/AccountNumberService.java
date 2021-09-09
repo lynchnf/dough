@@ -2,19 +2,17 @@ package norman.dough.service;
 
 import norman.dough.domain.AccountNumber;
 import norman.dough.domain.repository.AccountNumberRepository;
+import norman.dough.exception.InconceivableException;
 import norman.dough.exception.NotFoundException;
-import norman.dough.exception.OptimisticLockingException;
-import norman.dough.exception.ReferentialIntegrityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,21 +38,13 @@ public class AccountNumberService {
         return optional.get();
     }
 
-    public AccountNumber save(AccountNumber entity) throws OptimisticLockingException {
-        try {
-            return repository.save(entity);
-        } catch (ObjectOptimisticLockingFailureException e) {
-            throw new OptimisticLockingException(LOGGER, "Account Number", entity.getId(), e);
+    public AccountNumber findCurrentByAccountId(Long accountId) throws InconceivableException {
+        List<AccountNumber> accountNumberList = repository.findTopByAccount_IdOrderByEffectiveDateDesc(accountId);
+        // This should never happen. If we have an account, we should have at least one account number.
+        if (accountNumberList.isEmpty()) {
+            throw new InconceivableException(LOGGER,
+                    String.format("No Account Numbers found for accountId=%d.", accountId));
         }
-    }
-
-    public void delete(AccountNumber entity) throws OptimisticLockingException, ReferentialIntegrityException {
-        try {
-            repository.delete(entity);
-        } catch (ObjectOptimisticLockingFailureException e) {
-            throw new OptimisticLockingException(LOGGER, "Account Number", entity.getId(), e);
-        } catch (DataIntegrityViolationException e) {
-            throw new ReferentialIntegrityException(LOGGER, "Account Number", entity.getId(), e);
-        }
+        return accountNumberList.iterator().next();
     }
 }
