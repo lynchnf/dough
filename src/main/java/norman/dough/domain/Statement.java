@@ -25,8 +25,10 @@ public class Statement {
     private Integer version = 0;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
+    @Column(nullable = false)
     private Account account;
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private Date closeDate;
     @Column(precision = 9, scale = 2)
     private BigDecimal closeBalance;

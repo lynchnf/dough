@@ -22,6 +22,7 @@ public class Account {
     @Column(length = 50, nullable = false)
     private String name;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AccountType type;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "default_category_id")
