@@ -23,7 +23,6 @@ public class Transaction {
     private Integer version = 0;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "statement_id", nullable = false)
-    @Column(nullable = false)
     private Statement statement;
     @Column(length = 100, nullable = false)
     private String name;
